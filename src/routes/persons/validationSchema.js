@@ -1,5 +1,6 @@
 const Joi = require("joi");
 
+// For registeration
 const createPersonSchema = (person) => {
   const schema = Joi.object().keys({
     firstName: Joi.string()
@@ -17,4 +18,14 @@ const createPersonSchema = (person) => {
   return schema.validate(person);
 };
 
-module.exports = createPersonSchema;
+// for login
+const authPersonSchema = (person) => {
+  const schema = Joi.object().keys({
+    email: Joi.string().email().required("Email is required..."),
+    password: Joi.string().required("Password is required..."),
+  });
+
+  return schema.validate(person);
+};
+
+module.exports = { createPersonSchema, authPersonSchema };

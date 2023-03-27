@@ -11,21 +11,28 @@ module.exports = {
       },
       firstName: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       lastName: {
         type: Sequelize.STRING,
       },
       email: {
         type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+        isEmail: true,
       },
       gender: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       religion: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       nationality: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

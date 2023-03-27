@@ -1,22 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const { db } = require("../../models");
+const createCustomerSchema = require("./validationSchema");
 const Customer = db.customers;
 const Op = db.Sequelize.Op;
 
 // Create a new Customer
 router.post("/", async (req, res) => {
+  const payload = req.body;
   // Validate request
-  if (!req.body.customerName) {
-    res.status(400).send({
-      message: "Customer name can not be empty!",
-    });
+  const validatePayload = createCustomerSchema(payload);
+  const { error } = validatePayload;
+  if (error) {
+    res.status(400).send({ message: error.message });
     return;
   }
-
-  // Create a Customer
-  const payload = req.body;
-
   // Save Customer in the database
   const data = await Customer.create(payload);
   res.status(200).send(data);
@@ -112,7 +110,7 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-// Create a new Tutorial
+// Delete all customers
 router.delete("/", (req, res) => {
   Customer.destroy({
     where: {},
